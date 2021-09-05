@@ -2,8 +2,12 @@
 
 namespace App\Providers;
 
+use App\Domain\Employees\Models\Employee;
+use App\Domain\Restaurants\Models\Restaurant;
+use App\Policies\EmployeePolicy;
+use App\Policies\RestaurantPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
-use Illuminate\Support\Facades\Gate;
+use Laravel\Passport\Passport;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -14,6 +18,8 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         // 'App\Models\Model' => 'App\Policies\ModelPolicy',
+        Employee::class => EmployeePolicy::class,
+        Restaurant::class => RestaurantPolicy::class,
     ];
 
     /**
@@ -25,6 +31,8 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        //
+        if (! $this->app->routesAreCached()) {
+            Passport::routes();
+        }
     }
 }
