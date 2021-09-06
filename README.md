@@ -13,6 +13,10 @@
 ## Routes
 
 ```
+# Swagger /api/documentation
+```
+
+```
 # Public
 
 GET   /api/v1/employees
@@ -32,3 +36,4 @@ DELETE   /api/v1/employees/:id
 PUT   /api/v1/employees/:id/restaurants/:id
 
 DELETE   /api/v1/employees/:id/restaurants/:id
+```

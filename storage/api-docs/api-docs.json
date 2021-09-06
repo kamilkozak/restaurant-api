@@ -1,0 +1,244 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Restaurant Api Documentation",
+        "description": "Swagger with Laravel",
+        "contact": {
+            "email": "admin@admin.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://restaurant-api.test/api/v1",
+            "description": "Demo API Server"
+        }
+    ],
+    "paths": {
+        "/employees": {
+            "get": {
+                "tags": [
+                    "Employees"
+                ],
+                "summary": "Get list of employees",
+                "description": "Returns list of employees",
+                "operationId": "getEmployeesList",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/EmployeeResource"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Employees"
+                ],
+                "summary": "Store new employee",
+                "description": "Returns employee data",
+                "operationId": "storeEmployee",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreEmployeeRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Employee"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "passport": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Employee": {
+                "title": "Employee",
+                "description": "Employee model",
+                "properties": {
+                    "id": {
+                        "title": "ID",
+                        "description": "ID",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "first_name": {
+                        "title": "First Name",
+                        "description": "The first name of the employee",
+                        "type": "string",
+                        "example": "John"
+                    },
+                    "last_name": {
+                        "title": "Last Name",
+                        "description": "The last name of the employee",
+                        "type": "string",
+                        "example": "Doe"
+                    },
+                    "email": {
+                        "title": "Email",
+                        "description": "Employee's email",
+                        "type": "string",
+                        "example": "example@gmail.com"
+                    },
+                    "created_at": {
+                        "title": "Created at",
+                        "description": "Created at",
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2020-01-27 17:50:45"
+                    },
+                    "updated_at": {
+                        "title": "Updated at",
+                        "description": "Updated at",
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2020-01-27 17:50:45"
+                    },
+                    "restaurants": {
+                        "title": "Restaurants",
+                        "description": "Employee restaurants",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Restaurant"
+                        }
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "Employee"
+                }
+            },
+            "Restaurant": {
+                "title": "Restaurant",
+                "description": "Restaurant model",
+                "properties": {
+                    "id": {
+                        "title": "ID",
+                        "description": "ID",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "name": {
+                        "title": "Name",
+                        "description": "Name of the restaurant",
+                        "type": "string",
+                        "example": "MeatChefs"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "Restaurant"
+                }
+            },
+            "StoreEmployeeRequest": {
+                "title": "Store Employee request",
+                "description": "Store Employee request body data",
+                "required": [
+                    "name"
+                ],
+                "properties": {
+                    "first_name": {
+                        "title": "First Name",
+                        "description": "The first name of the employee",
+                        "type": "string",
+                        "example": "John"
+                    },
+                    "last_name": {
+                        "title": "Last Name",
+                        "description": "The last name of the employee",
+                        "type": "string",
+                        "example": "Doe"
+                    },
+                    "email": {
+                        "title": "Email",
+                        "description": "Employee's email",
+                        "type": "string",
+                        "example": "example@gmail.com"
+                    }
+                },
+                "type": "object"
+            },
+            "EmployeeResource": {
+                "title": "EmployeeResource",
+                "description": "Employee resource",
+                "properties": {
+                    "data": {
+                        "title": "Data",
+                        "description": "Data wrapper",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Employee"
+                        }
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "EmployeeResource"
+                }
+            }
+        },
+        "securitySchemes": {
+            "passport": {
+                "type": "oauth2",
+                "description": "Laravel passport oauth2 security.",
+                "in": "header",
+                "scheme": "https",
+                "flows": {
+                    "password": {
+                        "authorizationUrl": "http://restaurant-api.test/oauth/authorize",
+                        "tokenUrl": "http://restaurant-api.test/oauth/token",
+                        "refreshUrl": "http://restaurant-api.test/token/refresh",
+                        "scopes": []
+                    }
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Restaurants",
+            "description": "API Endpoints of Restaurants"
+        }
+    ],
+    "security": [
+        []
+    ]
+}
